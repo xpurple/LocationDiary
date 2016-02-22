@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		651FDF1B1C7ACF87002787BD /* VisitDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651FDF1A1C7ACF87002787BD /* VisitDataManager.swift */; };
+		651FDF1D1C7AF474002787BD /* TempVisit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651FDF1C1C7AF474002787BD /* TempVisit.swift */; };
+		651FDF1F1C7AFAAD002787BD /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651FDF1E1C7AFAAD002787BD /* DetailViewController.swift */; };
 		65D0928D1C75D064003C58C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D0928C1C75D064003C58C9 /* AppDelegate.swift */; };
 		65D0928F1C75D064003C58C9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D0928E1C75D064003C58C9 /* ViewController.swift */; };
 		65D092921C75D064003C58C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65D092901C75D064003C58C9 /* Main.storyboard */; };
@@ -15,6 +18,14 @@
 		65D0929A1C75D064003C58C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65D092981C75D064003C58C9 /* LaunchScreen.storyboard */; };
 		65D092A51C75D064003C58C9 /* LocationDiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D092A41C75D064003C58C9 /* LocationDiaryTests.swift */; };
 		65D092B01C75D065003C58C9 /* LocationDiaryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D092AF1C75D065003C58C9 /* LocationDiaryUITests.swift */; };
+		65D092BE1C75D0D0003C58C9 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D092BD1C75D0D0003C58C9 /* LocationManager.swift */; };
+		65D092C01C75D10C003C58C9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D092BF1C75D10C003C58C9 /* CoreLocation.framework */; };
+		65D092C21C75D115003C58C9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D092C11C75D115003C58C9 /* MapKit.framework */; };
+		65D092C51C75D944003C58C9 /* Visit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D092C31C75D944003C58C9 /* Visit+CoreDataProperties.swift */; };
+		65D092C61C75D944003C58C9 /* Visit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D092C31C75D944003C58C9 /* Visit+CoreDataProperties.swift */; };
+		65D092C71C75D944003C58C9 /* Visit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D092C41C75D944003C58C9 /* Visit.swift */; };
+		65D092C81C75D944003C58C9 /* Visit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D092C41C75D944003C58C9 /* Visit.swift */; };
+		65D092CA1C770894003C58C9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D092C91C770894003C58C9 /* UIKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +46,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		651FDF1A1C7ACF87002787BD /* VisitDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitDataManager.swift; sourceTree = "<group>"; };
+		651FDF1C1C7AF474002787BD /* TempVisit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempVisit.swift; sourceTree = "<group>"; };
+		651FDF1E1C7AFAAD002787BD /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		65D092891C75D064003C58C9 /* LocationDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocationDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65D0928C1C75D064003C58C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		65D0928E1C75D064003C58C9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +63,12 @@
 		65D092AB1C75D065003C58C9 /* LocationDiaryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LocationDiaryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		65D092AF1C75D065003C58C9 /* LocationDiaryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDiaryUITests.swift; sourceTree = "<group>"; };
 		65D092B11C75D065003C58C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		65D092BD1C75D0D0003C58C9 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		65D092BF1C75D10C003C58C9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		65D092C11C75D115003C58C9 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		65D092C31C75D944003C58C9 /* Visit+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Visit+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		65D092C41C75D944003C58C9 /* Visit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Visit.swift; sourceTree = "<group>"; };
+		65D092C91C770894003C58C9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +76,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65D092CA1C770894003C58C9 /* UIKit.framework in Frameworks */,
+				65D092C21C75D115003C58C9 /* MapKit.framework in Frameworks */,
+				65D092C01C75D10C003C58C9 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +102,12 @@
 		65D092801C75D064003C58C9 = {
 			isa = PBXGroup;
 			children = (
+				651FDF1C1C7AF474002787BD /* TempVisit.swift */,
+				65D092C91C770894003C58C9 /* UIKit.framework */,
+				65D092C31C75D944003C58C9 /* Visit+CoreDataProperties.swift */,
+				65D092C41C75D944003C58C9 /* Visit.swift */,
+				65D092C11C75D115003C58C9 /* MapKit.framework */,
+				65D092BF1C75D10C003C58C9 /* CoreLocation.framework */,
 				65D0928B1C75D064003C58C9 /* LocationDiary */,
 				65D092A31C75D064003C58C9 /* LocationDiaryTests */,
 				65D092AE1C75D065003C58C9 /* LocationDiaryUITests */,
@@ -106,6 +135,9 @@
 				65D092981C75D064003C58C9 /* LaunchScreen.storyboard */,
 				65D0929B1C75D064003C58C9 /* Info.plist */,
 				65D092931C75D064003C58C9 /* LocationDiary.xcdatamodeld */,
+				65D092BD1C75D0D0003C58C9 /* LocationManager.swift */,
+				651FDF1A1C7ACF87002787BD /* VisitDataManager.swift */,
+				651FDF1E1C7AFAAD002787BD /* DetailViewController.swift */,
 			);
 			path = LocationDiary;
 			sourceTree = "<group>";
@@ -196,6 +228,11 @@
 				TargetAttributes = {
 					65D092881C75D064003C58C9 = {
 						CreatedOnToolsVersion = 7.2;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					65D0929F1C75D064003C58C9 = {
 						CreatedOnToolsVersion = 7.2;
@@ -259,9 +296,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				651FDF1F1C7AFAAD002787BD /* DetailViewController.swift in Sources */,
+				65D092BE1C75D0D0003C58C9 /* LocationManager.swift in Sources */,
 				65D092951C75D064003C58C9 /* LocationDiary.xcdatamodeld in Sources */,
+				651FDF1B1C7ACF87002787BD /* VisitDataManager.swift in Sources */,
 				65D0928F1C75D064003C58C9 /* ViewController.swift in Sources */,
+				65D092C51C75D944003C58C9 /* Visit+CoreDataProperties.swift in Sources */,
 				65D0928D1C75D064003C58C9 /* AppDelegate.swift in Sources */,
+				65D092C71C75D944003C58C9 /* Visit.swift in Sources */,
+				651FDF1D1C7AF474002787BD /* TempVisit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +313,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				65D092A51C75D064003C58C9 /* LocationDiaryTests.swift in Sources */,
+				65D092C61C75D944003C58C9 /* Visit+CoreDataProperties.swift in Sources */,
+				65D092C81C75D944003C58C9 /* Visit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,6 +533,7 @@
 				65D092B61C75D065003C58C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		65D092B71C75D065003C58C9 /* Build configuration list for PBXNativeTarget "LocationDiaryTests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +542,7 @@
 				65D092B91C75D065003C58C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		65D092BA1C75D065003C58C9 /* Build configuration list for PBXNativeTarget "LocationDiaryUITests" */ = {
 			isa = XCConfigurationList;
@@ -504,6 +551,7 @@
 				65D092BC1C75D065003C58C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
