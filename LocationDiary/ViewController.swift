@@ -22,7 +22,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Do any additional setup after loading the view, typically from a nib.
         LocationManager.sharedInstance.serviceOn()
         reloadData()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadData", name: UIApplicationDidBecomeActiveNotification, object: nil)
         
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,25 +52,31 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCellWithIdentifier("ListCell")
+        let cell = tableView.dequeueReusableCellWithIdentifier("ListCell") as! MapDataCell
         let visit = list[indexPath.row]
-        let format = NSDateFormatter()
-        format.locale = NSLocale(localeIdentifier: "ko_kr")
-        format.timeZone = NSTimeZone(name: "KST")
-        format.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        if let date = visit.valueForKey("arrivalDate") as? NSDate {
-        let time = format.stringFromDate(date)
-            cell!.textLabel!.text = time
-        } else {
-            cell!.textLabel!.text = "없음"
-        }
-        
-        return cell!
+        cell.setVisit(visit)
+        return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let visit = list[indexPath.row] as? Visit {
             performSegueWithIdentifier("ShowVisitDetail", sender: visit)
+        }
+    }
+    
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.Delete
+    }
+    
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.Delete) {
+            VisitDataManager.shardInstance.deleteVisit(indexPath.row, completeHandler: {() -> () in
+                self.reloadData()
+            })
         }
     }
     

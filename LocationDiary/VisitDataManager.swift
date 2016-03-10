@@ -80,4 +80,13 @@ class VisitDataManager {
             rootViewController?.presentViewController(alert, animated: true, completion: { _ in })
         }
     }
+    
+    func deleteVisit(index:Int, completeHandler:()->()) {
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        managedContext.deleteObject(visits[index] as NSManagedObject)
+        visits.removeAtIndex(index)
+        try! managedContext.save()
+        completeHandler()
+    }
 }
