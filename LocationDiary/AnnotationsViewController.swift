@@ -30,13 +30,11 @@ class TWOGradientCircleRenderer: MKCircleRenderer {
     }
 }
 
-class AnnotationsViewController: UIViewController, MKMapViewDelegate {
+class AnnotationsViewController: UIViewController, MKMapViewDelegate, MiningProtocol {
 
     @IBOutlet weak var mapView: MKMapView!
     
-    var list = [NSManagedObject]()
-    var annotaions = [Visit]()
-    var ceilValue = 1000.0
+    var list = [RefineData]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,31 +57,45 @@ class AnnotationsViewController: UIViewController, MKMapViewDelegate {
     
     func reloadData() {
         VisitDataManager.shardInstance.fetchVisits()
-        list = VisitDataManager.shardInstance.visits
-        
-        for visit in list {
-            let latitude :Double = ceil( (visit.valueForKey("latitude") as! NSNumber ).doubleValue * ceilValue) / ceilValue
-            let longitude :Double = ceil( (visit.valueForKey("longitude") as! NSNumber ).doubleValue * ceilValue) / ceilValue
-            let accuracy :Double = (visit.valueForKey("horizontalAccuracy") as! NSNumber).doubleValue
-            let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude )
-            print(" \(latitude)")
-            let pin = MKPointAnnotation()
-            pin.coordinate = CLLocationCoordinate2DMake(latitude, longitude)
-            mapView.addAnnotation(pin)
-            let circle = MKCircle(centerCoordinate: location, radius: accuracy)
-            mapView.addOverlay(circle)
-            
-        }
-        
-        if let visit = list.last {
-            let regionRadius: CLLocationDistance = 500
-            let location = CLLocationCoordinate2D(latitude: (visit.valueForKey("latitude") as! NSNumber ).doubleValue, longitude: (visit.valueForKey("longitude") as! NSNumber ).doubleValue)
-            let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, regionRadius * 2.0, regionRadius * 2.0)
-            mapView.setRegion(coordinateRegion, animated: true)
-        }
+        let mining = MiningData()
+        mining.delegate = self
+        mining.requestMinigData(VisitDataManager.shardInstance.visits)
         
     }
-
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        let annView = MKPinAnnotationView.init(annotation: annotation, reuseIdentifier: "pin")
+        annView.pinTintColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+        
+        if let refineDataIndex = list.indexOf({
+            let avg = $0.average()
+            
+            return avg.0 == annotation.coordinate.latitude && avg.1 == annotation.coordinate.longitude
+        
+        }) {
+            print("\(refineDataIndex) / \(list.count)")
+            
+            let refinedData:RefineData = list[refineDataIndex]
+            let count = refinedData.list.count
+            
+            print(" \(annotation.coordinate.latitude) and \(annotation.coordinate.longitude) in list \(refinedData.latitude) \(refinedData.longitude)  \(count)")
+            switch count {
+            case 1..<3 :
+                annView.pinTintColor = UIColor(red: 0.5, green: 0.5, blue: 1.0, alpha: 1.0)
+            case 3..<6 :
+                annView.pinTintColor = UIColor(red: 0.5, green: 1.0, blue: 0.5, alpha: 1.0)
+            case 6..<10:
+                annView.pinTintColor = UIColor(red: 1.0, green: 0.5, blue: 0.5, alpha: 1.0)
+            default:
+                annView.pinTintColor = UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
+            }
+    
+        } else {
+            print(" \(annotation.coordinate.latitude) and \(annotation.coordinate.longitude) ")
+        }
+        return annView
+    }
+    
     func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKCircle {
             let circleRenderer = TWOGradientCircleRenderer(overlay: overlay)
@@ -92,14 +104,32 @@ class AnnotationsViewController: UIViewController, MKMapViewDelegate {
             return MKOverlayRenderer()
         }
     }
-    /*
-    // MARK: - Navigation
+    
+    func fetchMinginData(miningList:[RefineData]) {
+        list = miningList
+        
+        for item in list {
+        
+            let annotaionData = item.average()
+            let location = CLLocationCoordinate2D(latitude: annotaionData.0, longitude: annotaionData.1 )
+            let pin = MKPointAnnotation()
+            pin.coordinate = CLLocationCoordinate2DMake(annotaionData.0, annotaionData.1)
+            pin.title = "\(item.list.count)"
+            mapView.addAnnotation(pin)
+            let circle = MKCircle(centerCoordinate: location, radius: annotaionData.2 * 100000)
+            mapView.addOverlay(circle)
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        }
+        
+        if let item = list.last {
+            
+            let annotaionData = item.average()
+            let regionRadius: CLLocationDistance = 500
+            let location = CLLocationCoordinate2D(latitude: annotaionData.0, longitude:annotaionData.1)
+            let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, regionRadius * 2.0, regionRadius * 2.0)
+            mapView.setRegion(coordinateRegion, animated: true)
+        }
+        
     }
-    */
 
 }
