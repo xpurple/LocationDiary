@@ -65,7 +65,7 @@ class AnnotationsViewController: UIViewController, MKMapViewDelegate, MiningProt
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         let annView = MKPinAnnotationView.init(annotation: annotation, reuseIdentifier: "pin")
-        annView.pinTintColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+        annView.pinTintColor = UIColor(red: 0.4, green: 0.4, blue: 1.0, alpha: 1.0)
         
         if let refineDataIndex = list.indexOf({
             let avg = $0.average()
@@ -80,14 +80,19 @@ class AnnotationsViewController: UIViewController, MKMapViewDelegate, MiningProt
             
             print(" \(annotation.coordinate.latitude) and \(annotation.coordinate.longitude) in list \(refinedData.latitude) \(refinedData.longitude)  \(count)")
             switch count {
-            case 1..<3 :
-                annView.pinTintColor = UIColor(red: 0.5, green: 0.5, blue: 1.0, alpha: 1.0)
-            case 3..<6 :
-                annView.pinTintColor = UIColor(red: 0.5, green: 1.0, blue: 0.5, alpha: 1.0)
+            case 1 :
+                annView.pinTintColor = UIColor(red: 1.0, green: 0.8, blue: 0.8, alpha: 1.0)
+            case 2,3 :
+                annView.pinTintColor = UIColor(red: 1.0, green: 0.6, blue: 0.6, alpha: 1.0)
+            case 4,5,6:
+                annView.pinTintColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
             case 6..<10:
-                annView.pinTintColor = UIColor(red: 1.0, green: 0.5, blue: 0.5, alpha: 1.0)
+                annView.pinTintColor = UIColor(red: 1.0, green: 0.2, blue: 0.2, alpha: 1.0)
+            case 10..<15:
+                annView.pinTintColor = UIColor(red: 1.0, green: 0, blue: 0, alpha: 1.0)
             default:
-                annView.pinTintColor = UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
+                annView.pinTintColor = UIColor(red: 0.8, green: 0, blue: 0, alpha: 1.0)
+
             }
     
         } else {
