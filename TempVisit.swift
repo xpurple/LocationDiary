@@ -14,4 +14,5 @@ class TempVisit {
     var latitude: NSNumber?
     var longitude: NSNumber?
     var horizontalAccuracy: NSNumber?
+    
 }
