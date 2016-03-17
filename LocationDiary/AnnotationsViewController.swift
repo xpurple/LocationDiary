@@ -35,11 +35,13 @@ class AnnotationsViewController: UIViewController, MKMapViewDelegate, MiningProt
     @IBOutlet weak var mapView: MKMapView!
     
     var list = [RefineData]()
+    let mining = MiningData()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
         mapView.showsUserLocation = true
+        mining.delegate = self
         reloadData()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadData", name: UIApplicationDidBecomeActiveNotification, object: nil)
         
@@ -57,8 +59,6 @@ class AnnotationsViewController: UIViewController, MKMapViewDelegate, MiningProt
     
     func reloadData() {
         VisitDataManager.shardInstance.fetchVisits()
-        let mining = MiningData()
-        mining.delegate = self
         mining.requestMinigData(VisitDataManager.shardInstance.visits)
         
     }
