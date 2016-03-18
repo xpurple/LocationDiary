@@ -30,9 +30,15 @@ class TWOGradientCircleRenderer: MKCircleRenderer {
     }
 }
 
+enum LoationDataType {
+    case Raw
+    case Cluster
+}
+
 class AnnotationsViewController: UIViewController, MKMapViewDelegate, MiningProtocol {
 
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var clusteringSwitch: UISwitch!
     
     var list = [RefineData]()
     let mining = MiningData()
@@ -42,9 +48,14 @@ class AnnotationsViewController: UIViewController, MKMapViewDelegate, MiningProt
         mapView.delegate = self
         mapView.showsUserLocation = true
         mining.delegate = self
-        reloadData()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadData", name: UIApplicationDidBecomeActiveNotification, object: nil)
+        reloadData(.Cluster)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "notification", name: UIApplicationDidBecomeActiveNotification, object: nil)
         
+        if let location = LocationManager.sharedInstance.location.location {
+            let regionRadius: CLLocationDistance = 500
+            let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius * 2.0, regionRadius * 2.0)
+            mapView.setRegion(coordinateRegion, animated: true)
+        }
     }
     
     deinit {
@@ -57,45 +68,73 @@ class AnnotationsViewController: UIViewController, MKMapViewDelegate, MiningProt
         // Dispose of any resources that can be recreated.
     }
     
-    func reloadData() {
-        mining.requestMinigData(VisitDataManager.shardInstance.fetchVisits())
+    func notification() {
+        if clusteringSwitch.on {
+            reloadData(.Cluster)
+        } else {
+            reloadData(.Raw)
+        }
+    }
+    
+    func reloadData(type:LoationDataType) {
+        
+        list.removeAll()
+        let annotatons = mapView.annotations
+        mapView.removeAnnotations(annotatons)
+        let overlays = mapView.overlays
+        mapView.removeOverlays(overlays)
+        
+        if type == .Cluster {
+            mining.requestMinigData(VisitDataManager.shardInstance.fetchVisits())
+        } else {
+            let dataList = VisitDataManager.shardInstance.fetchVisits()
+            for item in dataList {
+                list.append(RefineData(data: item))
+            }
+            fetchMinginData(list)
+        }
         
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         let annView = MKPinAnnotationView.init(annotation: annotation, reuseIdentifier: "pin")
-        annView.pinTintColor = UIColor(red: 0.4, green: 0.4, blue: 1.0, alpha: 1.0)
         
-        if let refineDataIndex = list.indexOf({
-            let avg = $0.average()
+        if clusteringSwitch.on {
+            annView.pinTintColor = UIColor(red: 0.4, green: 0.4, blue: 1.0, alpha: 1.0)
             
-            return avg.0 == annotation.coordinate.latitude && avg.1 == annotation.coordinate.longitude
-        
-        }) {
-            print("\(refineDataIndex) / \(list.count)")
+            if let refineDataIndex = list.indexOf({
+                let avg = $0.average()
+                
+                return avg.0 == annotation.coordinate.latitude && avg.1 == annotation.coordinate.longitude
             
-            let refinedData:RefineData = list[refineDataIndex]
-            let count = refinedData.list.count
-            
-            print(" \(annotation.coordinate.latitude) and \(annotation.coordinate.longitude) in list \(refinedData.latitude) \(refinedData.longitude)  \(count)")
-            switch count {
-            case 1 :
-                annView.pinTintColor = UIColor(red: 1.0, green: 0.8, blue: 0.8, alpha: 1.0)
-            case 2,3 :
-                annView.pinTintColor = UIColor(red: 1.0, green: 0.6, blue: 0.6, alpha: 1.0)
-            case 4,5,6:
-                annView.pinTintColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
-            case 6..<10:
-                annView.pinTintColor = UIColor(red: 1.0, green: 0.2, blue: 0.2, alpha: 1.0)
-            case 10..<15:
-                annView.pinTintColor = UIColor(red: 1.0, green: 0, blue: 0, alpha: 1.0)
-            default:
-                annView.pinTintColor = UIColor(red: 0.8, green: 0, blue: 0, alpha: 1.0)
+            }) {
+                print("\(refineDataIndex) / \(list.count)")
+                
+                let refinedData:RefineData = list[refineDataIndex]
+                let count = refinedData.list.count
+                
+                print(" \(annotation.coordinate.latitude) and \(annotation.coordinate.longitude) in list \(refinedData.latitude) \(refinedData.longitude)  \(count)")
+                switch count {
+                case 1 :
+                    annView.pinTintColor = UIColor(red: 1.0, green: 0.8, blue: 0.8, alpha: 1.0)
+                case 2,3 :
+                    annView.pinTintColor = UIColor(red: 1.0, green: 0.6, blue: 0.6, alpha: 1.0)
+                case 4,5,6:
+                    annView.pinTintColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
+                case 6..<10:
+                    annView.pinTintColor = UIColor(red: 1.0, green: 0.2, blue: 0.2, alpha: 1.0)
+                case 10..<15:
+                    annView.pinTintColor = UIColor(red: 1.0, green: 0, blue: 0, alpha: 1.0)
+                default:
+                    annView.pinTintColor = UIColor(red: 0.8, green: 0, blue: 0, alpha: 1.0)
 
+                }
+        
+            } else {
+                print(" \(annotation.coordinate.latitude) and \(annotation.coordinate.longitude) ")
             }
-    
         } else {
-            print(" \(annotation.coordinate.latitude) and \(annotation.coordinate.longitude) ")
+            annView.pinTintColor = UIColor(red: 0.0, green: 1.0, blue: 0.0, alpha: 1.0)
         }
         return annView
     }
@@ -125,15 +164,14 @@ class AnnotationsViewController: UIViewController, MKMapViewDelegate, MiningProt
 
         }
         
-        if let item = list.last {
-            
-            let annotaionData = item.average()
-            let regionRadius: CLLocationDistance = 500
-            let location = CLLocationCoordinate2D(latitude: annotaionData.0, longitude:annotaionData.1)
-            let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, regionRadius * 2.0, regionRadius * 2.0)
-            mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    @IBAction func valueChanged(sender: AnyObject) {
+        if clusteringSwitch.on {
+            reloadData(.Cluster)
+        } else {
+            reloadData(.Raw)
         }
-        
     }
 
 }

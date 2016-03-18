@@ -187,18 +187,33 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="VKr-uJ-Gzo">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
                             </mapView>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dXR-ji-y3O">
+                                <rect key="frame" x="531" y="72" width="51" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="49" id="Z0O-uG-27M"/>
+                                    <constraint firstAttribute="height" constant="31" id="ZSh-YY-4Ho"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="valueChanged:" destination="bYz-vu-BSS" eventType="valueChanged" id="6CC-nA-LOW"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="KMN-d7-nXN" firstAttribute="top" secondItem="VKr-uJ-Gzo" secondAttribute="bottom" id="HMM-MQ-X12"/>
                             <constraint firstItem="VKr-uJ-Gzo" firstAttribute="leading" secondItem="WSG-y6-zQa" secondAttribute="leadingMargin" constant="-20" id="Tud-EG-lgo"/>
+                            <constraint firstItem="dXR-ji-y3O" firstAttribute="trailing" secondItem="WSG-y6-zQa" secondAttribute="trailingMargin" id="UMb-Mm-EHZ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="VKr-uJ-Gzo" secondAttribute="trailing" constant="-20" id="ary-Bs-VrJ"/>
+                            <constraint firstItem="dXR-ji-y3O" firstAttribute="top" secondItem="hUZ-XG-BW5" secondAttribute="bottom" constant="8" id="hYo-z6-lCt"/>
                             <constraint firstItem="VKr-uJ-Gzo" firstAttribute="top" secondItem="hUZ-XG-BW5" secondAttribute="bottom" id="lX1-Uo-ZpO"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="clusteringSwitch" destination="dXR-ji-y3O" id="xGl-0y-MjW"/>
                         <outlet property="mapView" destination="VKr-uJ-Gzo" id="Uwm-b1-lq7"/>
                     </connections>
                 </viewController>
