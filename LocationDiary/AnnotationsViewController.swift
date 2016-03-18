@@ -58,8 +58,7 @@ class AnnotationsViewController: UIViewController, MKMapViewDelegate, MiningProt
     }
     
     func reloadData() {
-        VisitDataManager.shardInstance.fetchVisits()
-        mining.requestMinigData(VisitDataManager.shardInstance.visits)
+        mining.requestMinigData(VisitDataManager.shardInstance.fetchVisits())
         
     }
     

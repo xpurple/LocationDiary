@@ -60,21 +60,13 @@ class LocationManager :NSObject, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didVisit visit: CLVisit) {
         //
-        VisitDataManager.shardInstance.saveVisit(visit)
+        VisitDataManager.shardInstance.saveVisit(LDVisit(useCLVisit:visit))
     }
     
-    func currentLocation() -> TempVisit? {
-        
-        let visit = TempVisit()
+    func currentLocation() -> LDVisit? {
         
         if let current = location.location {
-            visit.longitude = NSNumber(double: current.coordinate.longitude)
-            visit.latitude = NSNumber(double: current.coordinate.latitude)
-            visit.horizontalAccuracy = NSNumber(double: current.horizontalAccuracy)
-            visit.arrivalDate = NSDate();
-            visit.departureDate = NSDate();
-            
-            return visit
+            return LDVisit(currentLocation:current)
         } else {
             return nil;
         }

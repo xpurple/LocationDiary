@@ -15,7 +15,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var emptyLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    var list = [NSManagedObject]()
+    var list = [LDVisit]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,10 +36,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 
     func reloadData() {
-        VisitDataManager.shardInstance.fetchVisits()
-        list = VisitDataManager.shardInstance.visits
-        
-        tableView.reloadData()
+        list.removeAll()
+        list.appendContentsOf(VisitDataManager.shardInstance.fetchVisits())
+
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -59,9 +58,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let visit = list[indexPath.row] as? Visit {
-            performSegueWithIdentifier("ShowVisitDetail", sender: visit)
-        }
+        performSegueWithIdentifier("ShowVisitDetail", sender: indexPath)
     }
     
     func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
@@ -83,7 +80,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func pressAdd(sender: UIBarButtonItem) {
         
         if let location = LocationManager.sharedInstance.currentLocation() {
-            VisitDataManager.shardInstance.saveCurrentLocation(location)
+            VisitDataManager.shardInstance.saveVisit(location)
             
             reloadData()
         }
@@ -92,7 +89,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowVisitDetail" {
             let detailViewController = segue.destinationViewController as! DetailViewController
-            detailViewController.visit = sender as? Visit
+            if let indexPath:NSIndexPath = sender as? NSIndexPath {
+                detailViewController.visit = list[indexPath.row]
+            }
         }
         
     }

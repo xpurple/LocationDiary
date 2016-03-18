@@ -12,12 +12,12 @@ import CoreData
 class RefineData {
     var latitude: Double = 0.0
     var longitude: Double = 0.0
-    var list = [NSManagedObject]()
+    var list = [LDVisit]()
     let volume = 1000.0
     
-    init (data:NSManagedObject) {
-        let dataLatitude = data.valueForKey("latitude")!.doubleValue
-        let dataLongitude = data.valueForKey("longitude")!.doubleValue
+    init (data:LDVisit) {
+        let dataLatitude = data.latitude
+        let dataLongitude = data.longitude
         
         latitude = ceil(dataLatitude * volume)
         longitude = ceil(dataLongitude * volume)
@@ -25,10 +25,10 @@ class RefineData {
         addData(data)
     }
     
-    func inRegin(data:NSManagedObject) -> Bool {
+    func inRegin(data:LDVisit) -> Bool {
         
-        let dataLatitude = data.valueForKey("latitude")!.doubleValue
-        let dataLongitude = data.valueForKey("longitude")!.doubleValue
+        let dataLatitude = data.latitude
+        let dataLongitude = data.longitude
         
         if latitude == ceil(dataLatitude * volume) && longitude == ceil(dataLongitude * volume) {
             return true
@@ -37,7 +37,7 @@ class RefineData {
         return false
     }
     
-    func addData(data:NSManagedObject) {
+    func addData(data:LDVisit) {
         list.append(data)
     }
     
@@ -48,8 +48,8 @@ class RefineData {
         var sumLongitude: Double = 0
         
         for item in list {
-            sumLatidue += item.valueForKey("latitude")!.doubleValue
-            sumLongitude += item.valueForKey("longitude")!.doubleValue
+            sumLatidue += item.latitude
+            sumLongitude += item.longitude
         }
         
         let averageLocationX = sumLatidue / Double(count)
@@ -58,7 +58,7 @@ class RefineData {
         var varianceSum:Double = 0
         
         for item in list {
-            varianceSum = variance( averageLocationX, x2: item.valueForKey("latitude")!.doubleValue, y1: averageLocationY, y2: item.valueForKey("longitude")!.doubleValue )
+            varianceSum = variance( averageLocationX, x2: item.latitude, y1: averageLocationY, y2: item.longitude )
         }
         
         return (averageLocationX , averageLocationY, varianceSum / Double(count))

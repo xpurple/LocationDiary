@@ -28,27 +28,20 @@ class MapDataCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setVisit(visitData:NSManagedObject) {
+    func setVisit(visitData:LDVisit) {
         
-        var arrivalTime = "도착 : 없음"
-        var departureTime = "출발 : 없음"
         let format = NSDateFormatter()
         format.locale = NSLocale(localeIdentifier: "ko_kr")
         format.timeZone = NSTimeZone(name: "KST")
         format.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        if let date = visitData.valueForKey("arrivalDate") as? NSDate {
-            arrivalTime = "도착 : \(format.stringFromDate(date))"
-        }
-        
-        if let date = visitData.valueForKey("departureDate") as? NSDate {
-            departureTime = "출발 : \(format.stringFromDate(date))"
-        }
-        
+        let arrivalTime = "도착 : \(format.stringFromDate(visitData.arrivalDate))"
+        let departureTime = "출발 : \(format.stringFromDate(visitData.departureDate))"
+
         arrivalDateLabel.text = arrivalTime
         depatureDateLabel.text = departureTime
         
-        latitudeLabel.text = "latitude : \(visitData.valueForKey("latitude") as! NSNumber)"
-        longitudeLabel.text = "longitude : \(visitData.valueForKey("longitude") as! NSNumber)"
+        latitudeLabel.text = "latitude : \(visitData.latitude)"
+        longitudeLabel.text = "longitude : \(visitData.longitude)"
         
     }
 

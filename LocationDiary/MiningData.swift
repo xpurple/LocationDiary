@@ -17,7 +17,7 @@ class MiningData {
     
     var delegate:MiningProtocol?
     
-    func requestMinigData(dataList:[NSManagedObject]) {
+    func requestMinigData(dataList:[LDVisit]) {
         
         var list = [RefineData]()
         
