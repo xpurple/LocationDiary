@@ -111,7 +111,7 @@ class AnnotationsViewController: UIViewController, MKMapViewDelegate, MiningProt
                 print("\(refineDataIndex) / \(list.count)")
                 
                 let refinedData:RefineData = list[refineDataIndex]
-                let count = refinedData.list.count
+                let count = refinedData.visitCount
                 
                 print(" \(annotation.coordinate.latitude) and \(annotation.coordinate.longitude) in list \(refinedData.latitude) \(refinedData.longitude)  \(count)")
                 switch count {
@@ -157,7 +157,7 @@ class AnnotationsViewController: UIViewController, MKMapViewDelegate, MiningProt
             let location = CLLocationCoordinate2D(latitude: annotaionData.0, longitude: annotaionData.1 )
             let pin = MKPointAnnotation()
             pin.coordinate = CLLocationCoordinate2DMake(annotaionData.0, annotaionData.1)
-            pin.title = "\(item.list.count)"
+            pin.title = "\(item.visitCount)"
             mapView.addAnnotation(pin)
             let circle = MKCircle(centerCoordinate: location, radius: annotaionData.2 * 100000)
             mapView.addOverlay(circle)

@@ -9,11 +9,27 @@
 import Foundation
 import CoreData
 
+enum VisitFrequency {
+    case Nerver
+    case AlmostNever
+    case OnceAMonth
+    case OnceAWeek
+    case SeveralTimesAWeek
+    case OnceADay
+    case SeveralTimesADay
+}
+
 class RefineData {
     var latitude: Double = 0.0
     var longitude: Double = 0.0
-    var list = [LDVisit]()
-    let volume = 1000.0
+    var visitFrequecy = VisitFrequency.Nerver
+    var visitCount:Int {
+        get {
+            return self.list.count
+        }
+    }
+    private var list = [LDVisit]()
+    private let volume = 1000.0
     
     init (data:LDVisit) {
         let dataLatitude = data.latitude
