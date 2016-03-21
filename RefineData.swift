@@ -10,25 +10,53 @@ import Foundation
 import CoreData
 
 enum VisitFrequency {
-    case Nerver
-    case AlmostNever
-    case OnceAMonth
-    case OnceAWeek
-    case SeveralTimesAWeek
-    case OnceADay
-    case SeveralTimesADay
+    //TODO
+//    case Never
+//    case AlmostNever
+//    case OnceAMonth
+//    case SeveralTimesAMonth
+//    case OnceAWeek
+//    case SeveralTimesAWeek
+//    case OnceADay
+//    case SeveralTimesADay
+    
+    case Never
+    case FirstTime
+    case LessThanFourTimes
+    case LessThanTenTimes
+    case GreaterThanTenTimes
 }
 
 class RefineData {
+    private var list = [LDVisit]()
+    
     var latitude: Double = 0.0
     var longitude: Double = 0.0
-    var visitFrequecy = VisitFrequency.Nerver
+    var visitFrequecy: VisitFrequency {
+        get {
+            var frequecy = VisitFrequency.Never
+            switch self.visitCount {
+            case 0:
+                frequecy = .Never
+            case 1:
+                frequecy = .FirstTime
+            case 1..<4:
+                frequecy = .LessThanFourTimes
+            case 4..<10:
+                frequecy = .LessThanTenTimes
+            default:
+                frequecy = .GreaterThanTenTimes
+            }
+            return frequecy
+        }
+    }
+    
     var visitCount:Int {
         get {
             return self.list.count
         }
     }
-    private var list = [LDVisit]()
+    
     private let volume = 1000.0
     
     init (data:LDVisit) {
